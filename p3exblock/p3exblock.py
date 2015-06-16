@@ -1,6 +1,7 @@
 """TO-DO: Write a description of what this XBlock is."""
 
 import pkg_resources
+import logging
 
 from xblock.core import XBlock
 from xblock.fields import Scope, Integer, String, List
@@ -20,6 +21,10 @@ class P3eXBlock(XBlock):
     questions = List(
         default=[], scope=Scope.user_state_summary,
         help="The list of all questions",
+    )
+    responses = List(
+        default=[], scope=Scope.user_state_summary,
+        help="The list of all responses",
     )
     current_phase = Integer(
         default=1, scope=Scope.user_state,
@@ -46,36 +51,47 @@ class P3eXBlock(XBlock):
         default="", scope=Scope.user_state,
         help="The answer proposed by the student",
     )
+    
+    def studio_view(self, context):
+        pass
+
+    def student_view(self, context=None):
+        # print
+        # print "Debut"
+        # print self.questions
+        # self.questions.append({'1': 'prout', '2':"pet"})
+        # self.questions.append({'message': "coucou"})
+        # print self.questions
+        # print "Fin"
+        # print
+
+        data = []
+        if (self.current_phase == 1):
+            data = self.get_data_phase1()
+        elif (self.current_phase == 3):
+            data = self.get_data_phase3()
+
+        return self.load_current_phase(data)
+
+
+    def load_current_phase(self, data):
+        """Handy helper for loading mako template."""
+        f = APP_PATH+"templates/phase"+ str(self.current_phase) +".html"
+        html = Template(filename=f, input_encoding='utf-8').render(data=data)
+
+        frag = Fragment(html)
+        frag.add_css(self.resource_string("static/css/p3exblock.css"))
+        frag.add_javascript(self.resource_string("static/js/src/p3exblock.js"))
+        frag.initialize_js('P3eXBlock')
+        return frag
 
     def resource_string(self, path):
         """Handy helper for getting resources from our kit."""
         data = pkg_resources.resource_string(__name__, path)
         return data.decode("utf8")
 
-    def load_template(self, filename, data=None):
-        """Handy helper for loading mako template."""
-        mytemplate = Template(filename=APP_PATH+"templates/"+filename, input_encoding='utf-8')
-        return mytemplate.render(data=data)
-    
 
-    def studio_view(self, context):
-        pass
-
-    def student_view(self, context=None):
-        if (self.current_phase == 1):
-            return self.phase1_view()
-        elif (self.current_phase == 2):
-            return self.phase2_view()
-        elif (self.current_phase == 3):
-            return self.phase3_view()
-        elif (self.current_phase == 4):
-            return self.finish_view()
-        else:
-            pass
-            # return self.default_view()
-
-
-    def phase1_view(self, context=None):
+    def get_data_phase1(self, context=None):
         """
         The first phase of the P3E
         """
@@ -83,69 +99,48 @@ class P3eXBlock(XBlock):
         q2 = "Praesent pulvinar in suscipit ?"
         q3 = "Mauris at risus in ipsum ?"
 
-        html = self.load_template("phase1.html", [q1, q2, q3])
-        frag = Fragment(html)
-        frag.add_css(self.resource_string("static/css/p3exblock.css"))
-        frag.add_javascript(self.resource_string("static/js/src/p3exblock.js"))
-        frag.initialize_js('P3eXBlock')
-        return frag
+        return [q1, q2, q3]
 
-    def phase2_view(self, context=None):
-        """
-        The second phase of the P3E
-        """
-        html = self.load_template("phase2.html", [])
-        frag = Fragment(html)
-        frag.add_css(self.resource_string("static/css/p3exblock.css"))
-        frag.add_javascript(self.resource_string("static/js/src/p3exblock.js"))
-        frag.initialize_js('P3eXBlock')
-        return frag
-
-    def phase3_view(self, context=None):
+    def get_data_phase3(self, context=None):
         """
         The third phase of the P3E
         """
 
-        paire1 = ("Lorem ipsum dolor sit amet ?", "Ok")
-        paire2 = ("Praesent pulvinar in suscipit ?", "Ok")
-        paire3 = ("Mauris at risus in ipsum ?", "Ok")
-        paire4 = ("Glori et gritum sanctus ? ", "Ok")
-        paire5 = ("Spius victum sacra tol ?", "Ok")
-        paire6 = ("Rosa palaviar sactara bitum solo ?", "Ok")
-        paire7 = ("Spartium calacam ravinar et rocasar ?", "Ok")
-        paire8 = ("Incipit dosera magnanum et via  ?", "Ok")
-        paire9 = ("Caviar Vodka par lo vomit  ? ", "Ok")
+        triplet1 = ("Lorem ipsum dolor sit amet ?", "Ok", "je suis la puissance")
+        triplet2 = ("Praesent pulvinar in suscipit ?", "Ok", "je suis la puissance")
+        triplet3 = ("Mauris at risus in ipsum ?", "Ok","je suis la puissance")
+        triplet4 = ("Glori et gritum sanctus ? ", "Ok","je suis la puissance")
+        triplet5 = ("Spius victum sacra tol ?", "Ok", "je suis la puissance")
+        triplet6 = ("Rosa palaviar sactara bitum solo ?", "Ok", "je suis la puissance")
+        triplet7 = ("Spartium calacam ravinar et rocasar ?", "Ok", "je suis la puissance")
+        triplet8 = ("Incipit dosera magnanum et via  ?", "Ok", "je suis la puissance")
+        triplet9 = ("Caviar Vodka par lo vomit  ? ", "Ok", "je suis la puissance")
 
-        html = self.load_template("phase3.html", [paire1, paire2, paire3, paire4, paire5, paire6, paire7, paire8, paire9])
-        frag = Fragment(html)
-        frag.add_css(self.resource_string("static/css/p3exblock.css"))
-        frag.add_javascript(self.resource_string("static/js/src/p3exblock.js"))
-        frag.initialize_js('P3eXBlock')
-        return frag
-
-    def finish_view(self, context=None):
-        """
-        The end of P3E
-        """
-        html = self.load_template("finish.html", [])
-        frag = Fragment(html)
-        frag.add_css(self.resource_string("static/css/p3exblock.css"))
-        frag.add_javascript(self.resource_string("static/js/src/p3exblock.js"))
-        frag.initialize_js('P3eXBlock')
-        return frag
+        return [triplet1, triplet2, triplet3, triplet4, triplet5, triplet6, triplet7, triplet8, triplet9]
 
     @XBlock.json_handler
     def validate_phase1(self, data, suffix=''):
         """
         A handler to validate the phase 1
         """
+        print 
+        print "Appel au handler"
 
         self.r1 = data['r1']
         self.r2 = data['r2']
         self.r3 = data['r3']
-        self.questions.append(Question("coucou"))
+
+        json_resp = Response.create_json(v_question_id = 1, v_text = data['r1'])
+        print "json 1 created : ", json_resp
+        self.responses.append(json_resp)
+        print "rep added : ", self.responses
+        json_resp = Response.create_json(v_question_id = 2, v_text = data['r2'])
+        self.responses.append(json_resp)
+        json_resp = Response.create_json(v_question_id = 3, v_text = data['r3'])
+        self.responses.append(json_resp)
 
         self.current_phase = 2
+        print "Fin du handler"
 
     @XBlock.json_handler
     def validate_phase2(self, data, suffix=''):

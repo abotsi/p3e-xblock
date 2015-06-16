@@ -1,11 +1,17 @@
 <div class="p3exblock_block">
     <div class="phase">
         <h2 class="phase-title">Phase 3 : Corriger</h2>
-        % for q, r in data:
+        % for q, r , rprof in data:
             <div class="question_block">
-                <label><strong>Réponse n° ${loop.index + 1} </strong></label>
-                <textarea id="q${loop.index + 1}" class="quest" rows="4" cols="80" readonly> ${q}</textarea>
-                <textarea id="r${loop.index + 1}" class="ans" rows="4" cols="80" readonly> ${r}</textarea>
+                <h4>Réponse n° ${loop.index + 1} </h4>
+                
+                </br>
+                <label> Le prof a répondu : </label>
+                <textarea id="q${loop.index + 1}" class="quest" rows="4" cols="80" readonly>${rprof}</textarea>
+                </br>
+                </br>
+                <label>Un élève a répondu : </label>
+                <textarea id="r${loop.index + 1}" class="ans" rows="4" cols="80" readonly>${r}</textarea>
                 <p class="grade">Note :
                     <input class="form-control grade" size="2" min="0" max="5" type="number" value="" />
                 </p>

@@ -1,7 +1,13 @@
 /* CSS for P3eXBlock */
 
 .p3exblock_block {
-    border: solid;
+	border: solid;
+	border-color: #F9359D;
+	border-style: inset;
+	border-width: 10px;
+	border-right-color: white;
+	border-bottom-color: white;
+	
 }
 
 .phase {
@@ -14,6 +20,11 @@
 
 .question_block {
 	margin: 50px 0px;
+	border-style: outset;
+	border-width: 10px;
+	border-color: #00CED1;
+		border-left-color: white;
+	border-top-color: white;
 }
 
 .grade {

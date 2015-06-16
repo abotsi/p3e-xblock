@@ -6,9 +6,9 @@
 			<div class="question_block">
 				<h4>Question n° ${loop.index + 1} </h4>
 				<p> ${q} </p>
-				<textarea id="r${loop.index + 1}" rows="6" cols="80"> </textarea>
+				<textarea id="r${loop.index + 1}" rows="6" cols="80"></textarea>
 				<p class="grade">Note : 
-					<input class="form-control" size="2" min="0" max="5" type="number" value="" />
+					<input id="note_saver${loop.index + 1}" class="form-control" size="2" min="0" max="5" type="number" value="" />
 				</p>
 			</div>
 		% endfor
