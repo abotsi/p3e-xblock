@@ -43,7 +43,7 @@ class Question(object):
 	def from_json(json_string):
 		json_var = json.loads(json_string)
 		res = Question()
-		res.question_id = json_var['question_id']
+		res.question_id = json_var['n_question_id']
 		res.n_writer_id = json_var['n_writer_id']
 		res.s_text = json_var['s_text']
 		res.lst_clue_answer = []
@@ -101,10 +101,44 @@ class Answer(object):
 
 
 if __name__ == '__main__':
-	a = Answer(p_s_text = "yo")
-	print "a :", a
-	q = Question(p_s_text = "bjr", p_lst_clue_answer = [a])
-	print "q :", q
-	q_json = q.to_json()
-	print "q_json :", q_json
+	# a = Answer(p_s_text = "yo")
+	# print "a :", a
+	# print
+	# q = Question(p_s_text = "bjr", p_lst_clue_answer = [a])
+	# print "q :", q
+	# print
+	# q_json = q.to_json()
+	# print "q_json :", q_json
+	# print
 	# q_py = Question.from_json(q_json)
+	# print "q_py :", q_py
+	# print
+
+
+	a = {
+		'answer_id': -1,
+		'n_writer_id': -1,
+		's_text': "yo.",
+		'n_grade': -1,
+		'nb_of_grade': -1,
+	}
+	print "a :", a
+	print
+	q = {
+		'n_question_id': -1,
+		'n_writer_id': -1,
+		's_text': "bjr",
+		'lst_clue_answer': [a],
+		'n_grade': 4,
+		'nb_of_grade': -1,
+		'lst_answer_to_evaluate': [],
+	}
+	print "q :", q
+	print
+	q_encode = json.dumps(q)
+	print "q_encode :", q_encode
+	print
+	q_decode = json.loads(q_encode)
+	print "q_decode :", q_decode
+	print
+	print "q['n_grade'] == q_decode['n_grade'] : ", q['n_grade'] == q_decode['n_grade'] 

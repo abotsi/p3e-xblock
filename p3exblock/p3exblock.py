@@ -61,6 +61,9 @@ class P3eXBlock(XBlock):
         # print "Fin"
         # print
 
+        self.current_phase = 2
+
+        
         data = []
         if (self.current_phase == 1):
             data = self.get_data_phase1()
@@ -146,13 +149,31 @@ class P3eXBlock(XBlock):
 
         print
         print "Debut handler"
-        a = Answer(p_s_text = data['r'])
-        q = Question(p_s_text = data['q'], p_lst_clue_answer = [a])
-        q_json = q.to_json()
-        print "apres to_json : ", q_json
-        print "apres from_json : ", Question.from_json(q_json)
-        print "is equal ? ", Question.from_json(q_json)==q
-        self.questions.append(q_json)
+        # a = Answer(p_s_text = data['r'])
+        # q = Question(p_s_text = data['q'], p_lst_clue_answer = [a])
+        # q_json = q.to_json()
+        # print "apres to_json : ", q_json
+        # print "apres from_json : ", Question.from_json(q_json)
+        # print "is equal ? ", Question.from_json(q_json)==q
+        # self.questions.append(q_json)
+
+        a = {
+            'answer_id': -1,
+            'n_writer_id': -1,
+            's_text': data['r'],
+            'n_grade': -1,
+            'nb_of_grade': -1,
+        }
+        q = {
+            'n_question_id': -1,
+            'n_writer_id': -1,
+            's_text': data['q'],
+            'lst_clue_answer': [a],
+            'n_grade': 4,
+            'nb_of_grade': -1,
+            'lst_answer_to_evaluate': [],
+        }
+        self.questions.append(q)
 
         self.current_phase = 3
         print "Fin handler"
