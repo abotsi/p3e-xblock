@@ -28,13 +28,16 @@ function P3eXBlock(runtime, element) {
     });
 
     $('#btn_valid2', element).click(function(eventObject) {
-        q = $('#q').val();
-        r = $('#r').val();
+        // q = $('#q').val();
+        // r = $('#r').val();
 
         $.ajax({
             type: "POST",
             url: urlValid2,
-            data: JSON.stringify({"q": q, "r": r}),
+            data: JSON.stringify({
+                "q": $('#q').val(), 
+                "r": $('#r').val()
+            }),
             success: setTimeout(function(){location.reload()},2000)
         });
     });

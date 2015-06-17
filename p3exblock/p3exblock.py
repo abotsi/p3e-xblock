@@ -9,7 +9,7 @@ from xblock.fragment import Fragment
 
 from mako.template import Template
 
-from models import Question, Response
+from models import Question, Answer
 
 APP_PATH = "/home/abotsi/Documents/stage_p3e/fun/edxwork/p3exblock/p3exblock/"
 
@@ -21,10 +21,6 @@ class P3eXBlock(XBlock):
     questions = List(
         default=[], scope=Scope.user_state_summary,
         help="The list of all questions",
-    )
-    responses = List(
-        default=[], scope=Scope.user_state_summary,
-        help="The list of all responses",
     )
     current_phase = Integer(
         default=1, scope=Scope.user_state,
@@ -130,14 +126,14 @@ class P3eXBlock(XBlock):
         self.r2 = data['r2']
         self.r3 = data['r3']
 
-        json_resp = Response.create_json(v_question_id = 1, v_text = data['r1'])
-        print "json 1 created : ", json_resp
-        self.responses.append(json_resp)
-        print "rep added : ", self.responses
-        json_resp = Response.create_json(v_question_id = 2, v_text = data['r2'])
-        self.responses.append(json_resp)
-        json_resp = Response.create_json(v_question_id = 3, v_text = data['r3'])
-        self.responses.append(json_resp)
+        # json_resp = Response.create_json(v_question_id = 1, v_text = data['r1'])
+        # print "json 1 created : ", json_resp
+        # self.responses.append(json_resp)
+        # print "rep added : ", self.responses
+        # json_resp = Response.create_json(v_question_id = 2, v_text = data['r2'])
+        # self.responses.append(json_resp)
+        # json_resp = Response.create_json(v_question_id = 3, v_text = data['r3'])
+        # self.responses.append(json_resp)
 
         self.current_phase = 2
         print "Fin du handler"
@@ -148,10 +144,18 @@ class P3eXBlock(XBlock):
         A handler to validate the phase 2
         """
 
-        self.q = data['q']
-        self.r = data['r']
+        print
+        print "Debut handler"
+        a = Answer(p_s_text = data['r'])
+        q = Question(p_s_text = data['q'], p_lst_clue_answer = [a])
+        q_json = q.to_json()
+        print "apres to_json : ", q_json
+        print "apres from_json : ", Question.from_json(q_json)
+        print "is equal ? ", Question.from_json(q_json)==q
+        self.questions.append(q_json)
 
         self.current_phase = 3
+        print "Fin handler"
 
     @XBlock.json_handler
     def validate_phase3(self, data, suffix=''):

@@ -1,48 +1,110 @@
 import json
 
 class Question(object):
-	def __init__(self, p_str_statement = "", p_str_answer = ""):
-		self.writer_id = 0
-		self.str_statement = p_str_statement
-		self.str_answer = p_str_answer
-		self.grade = 0
-		self.nb_eval = 0
+	def __init__(self, p_n_question_id = -1, p_n_writer_id = -1, p_s_text = "", p_lst_clue_answer = [], p_n_grade = -1, p_nb_of_grade = -1, p_lst_answer_to_evaluate = []):
+		self.n_question_id = p_n_question_id
+		self.n_writer_id = p_n_writer_id
+		self.s_text = p_s_text
+		self.lst_clue_answer = p_lst_clue_answer
+		self.n_grade = p_n_grade
+		self.nb_of_grade = p_nb_of_grade
+		self.lst_answer_to_evaluate = p_lst_answer_to_evaluate
 
-	@staticmethod
-	def create_json(p_writer_id = 0, p_str_statement = "", p_str_answer = "", p_grade = 0, p_nb_eval = 0):
-		json_var = {
-			'writer_id': p_writer_id,
-			'str_statement': p_str_statement,
-			'str_answer': p_str_answer,
-			'grade': p_grade,
-			'nb_eval': p_nb_eval,
-		}
-		return json.dumps(json_var)
+	def __str__(self):
+		return self.__dict__.__str__()
+	# @staticmethod
+	# def create_json(p_n_writer_id = 0, p_s_text = "", p_lst_clue_answer = [], p_n_grade = 0, p_nb_of_grade = 0):
+	# 	json_var = {
+	# 		'n_writer_id': p_n_writer_id,
+	# 		's_text': p_s_text,
+	# 		'lst_clue_answer': p_lst_clue_answer,
+	# 		'n_grade': p_n_grade,
+	# 		'nb_of_grade': p_nb_of_grade,
+	# 	}
+	# 	return json.dumps(json_var)
 
 	def to_json(self):
 		json_var = {
-			'writer_id': self.writer_id,
-			'str_statement': self.str_statement,
-			'str_answer': self.str_answer,
-			'grade': self.grade,
-			'nb_eval': self.nb_eval,
+			'n_question_id': self.n_question_id,
+			'n_writer_id': self.n_writer_id,
+			's_text': self.s_text,
+			'lst_clue_answer': [],
+			'n_grade': self.n_grade,
+			'nb_of_grade': self.nb_of_grade,
+			'lst_answer_to_evaluate': [],
 		}
+		for ans in self.lst_clue_answer:
+			json_var['lst_clue_answer'].append(ans.to_json())
+		for ans in self.lst_answer_to_evaluate:
+			json_var['lst_answer_to_evaluate'].append(ans.to_json())
 		return json.dumps(json_var)
-
-
-class Response(object):
-	def __init__(self):
-		self.answerer_id = 0
-		self.question_id = 0
-		self.text = ""
-		self.grade = 0
 
 	@staticmethod
-	def create_json(p_answerer_id = 0, p_question_id = 0, p_text = "", p_grade = 0):
+	def from_json(json_string):
+		json_var = json.loads(json_string)
+		res = Question()
+		res.question_id = json_var['question_id']
+		res.n_writer_id = json_var['n_writer_id']
+		res.s_text = json_var['s_text']
+		res.lst_clue_answer = []
+		res.n_grade = json_var['n_grade']
+		res.nb_of_grade = json_var['nb_of_grade']
+		res.lst_answer_to_evaluate = []
+		
+		for ans in json_var['lst_clue_answer']:
+			res.lst_clue_answer.append(ans.from_json())
+		for ans in json_var['lst_answer_to_evaluate']:
+			res.lst_answer_to_evaluate.append(ans.from_json())
+		return res
+
+
+class Answer(object):
+	def __init__(self, p_answer_id = -1, p_n_writer_id = -1, p_s_text = "", p_n_grade = -1, p_nb_of_grade = -1):
+		self.answer_id = p_answer_id
+		self.n_writer_id = p_n_writer_id
+		self.s_text = p_s_text
+		self.n_grade = p_n_grade
+		self.nb_of_grade = p_nb_of_grade
+
+	def __str__(self):
+		return self.__dict__.__str__()
+
+	def to_json(self):
 		json_var = {
-			'answerer_id': p_answerer_id,
-			'question_id': p_question_id,
-			'text': p_text,
-			'grade': p_grade,
+			'answer_id': self.answer_id,
+			'n_writer_id': self.n_writer_id,
+			's_text': self.s_text,
+			'n_grade': self.n_grade,
+			'nb_of_grade': self.nb_of_grade,
 		}
 		return json.dumps(json_var)
+
+	@staticmethod
+	def from_json(json_string):
+		json_var = json.loads(json_string)
+		res = Answer()
+		res.answer_id = json_var['answer_id']
+		res.n_writer_id = json_var['n_writer_id']
+		res.s_text = json_var['s_text']
+		res.n_grade = json_var['n_grade']
+		res.nb_of_grade = json_var['nb_of_grade']
+		return res
+	
+	# @staticmethod
+	# def create_json(p_answer_id = 0, p_n_question_id = 0, p_s_text = "", p_n_grade = 0):
+	# 	json_var = {
+	# 		'answer_id': p_answer_id,
+	# 		's_text': p_s_text,
+	# 		'grade': p_n_grade,
+	# 	}
+	# 	return json.dumps(json_var)
+
+
+if __name__ == '__main__':
+	a = Answer(p_s_text = "yo")
+	print "a :", a
+	q = Question(p_s_text = "bjr", p_lst_clue_answer = [a])
+	print "q :", q
+	q_json = q.to_json()
+	print "q_json :", q_json
+	# q_py = Question.from_json(q_json)
