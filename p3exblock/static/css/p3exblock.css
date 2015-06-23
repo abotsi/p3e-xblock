@@ -1,13 +1,17 @@
 /* CSS for P3eXBlock */
 
 .p3exblock_block {
-	border: solid;
+	border: dashed;
 	border-color: #F9359D;
 	border-style: inset;
-	border-width: 10px;
+	border-width: 20px;
 	border-right-color: white;
 	border-bottom-color: white;
 	
+}
+
+h2{
+	text-align: center;
 }
 
 .phase {
@@ -21,10 +25,11 @@
 .question_block {
 	margin: 50px 0px;
 	border-style: outset;
-	border-width: 10px;
+	border-width: 20px;
 	border-color: #00CED1;
-		border-left-color: white;
+	border-left-color: white;
 	border-top-color: white;
+	text-align: center;
 }
 
 .grade {
@@ -38,7 +43,79 @@ input[type="number"] {
 input[type="submit"] {
 	margin-bottom: 20px;
 }
+@media screen and (min-width: 1000px) { 
+	textarea {
 
-textarea {
-	display: block;
+    	display: block;
+    	margin-left: auto;
+    	margin-right: auto;
+		text-align: left;
+	}
 }
+
+
+@media screen and (max-width: 1000px) and (min-width: 750px)  { 
+
+	.question_block>textarea {
+
+    	display: block;
+    	margin-left: auto;
+    	margin-right: auto;
+		text-align: left;
+		width:93%;
+	}
+
+	.p3exblock_block {
+		border: dashed;
+		border-color: #F9359D;
+		border-style: inset;
+		border-width: 10px;
+		border-right-color: white;
+		border-bottom-color: white;
+	}
+
+	.question_block {
+		margin: 50px 0px;
+		border-style: outset;
+		border-width: 10px;
+		border-color: #00CED1;
+		border-left-color: white;
+		border-top-color: white;
+		text-align: center;
+	}
+
+}
+
+
+@media screen and (max-width: 750px) { 
+
+	.question_block>textarea {
+
+    	display: block;
+    	margin-left: auto;
+    	margin-right: auto;
+		text-align: left;
+		width:93%;
+	}
+
+	.p3exblock_block {
+		border: dashed;
+		border-color: #F9359D;
+		border-style: inset;
+		border-width: 5px;
+		border-right-color: white;
+		border-bottom-color: white;
+	}
+
+	.question_block {
+		margin: 50px 0px;
+		border-style: outset;
+		border-width: 5px;
+		border-color: #00CED1;
+		border-left-color: white;
+		border-top-color: white;
+		text-align: center;
+	}
+
+}
+

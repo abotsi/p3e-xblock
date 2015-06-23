@@ -1,22 +1,42 @@
 <div class="p3exblock_block">
     <div class="phase">
-        <h2 class="phase-title">Phase 3 : Corriger</h2>
+        <h2 class="phase-title">Third step : Correct</h2>
         % for q, r , rprof in data:
             <div class="question_block">
-                <h4>Réponse n° ${loop.index + 1} </h4>
+                <h4>Answer #${loop.index + 1} </h4>
                 
                 </br>
-                <label> Le prof a répondu : </label>
+                <label> Answer entered by the one who created this question : </label>
                 <textarea id="q${loop.index + 1}" class="quest" rows="4" cols="80" readonly>${rprof}</textarea>
+
+                </br>
+
+                <p class="grade">Grade you would give to this answer :
+                    <input class="form-control grade" size="2" min="0" max="5" type="number" value="0" />
+                </p>
+
+                <p class="grade">Do you want to propose another answer ? : 
+                    <button id="btn_valid3" class="btn btn-default btn-lg">Yes, I think the answer given by this user is wrong</button>
+                </p>
+
+
                 </br>
                 </br>
-                <label>Un élève a répondu : </label>
+                </br>
+                </br>
+
+                <label>Answer entered by the one who just answered the question : </label>
                 <textarea id="r${loop.index + 1}" class="ans" rows="4" cols="80" readonly>${r}</textarea>
-                <p class="grade">Note :
+                <p class="grade">Grade you would give to this answer :
                     <input class="form-control grade" size="2" min="0" max="5" type="number" value="" />
                 </p>
+            <br>
+            <br>
+
             </div>
         % endfor
-        <input id="btn_valid3" class="btn btn-default btn-lg" type="submit" value="Valider" />
+            <br>
+            <br>
+        <input id="btn_valid" class="btn btn-default btn-lg" type="submit" value="Valider" />
     </div>
 </div>
